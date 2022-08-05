@@ -718,8 +718,8 @@ class Job(HashIdMixin, models.Model):
     results = JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(auto_now=True)
-    enqueued_at = models.DateTimeField(null=True)
-    job_id = models.UUIDField(null=True)
+    enqueued_at = models.DateTimeField(null=True, blank=True)
+    job_id = models.UUIDField(null=True, blank=True)
     status = models.CharField(choices=Status, max_length=64, default=Status.started)
     org_id = models.CharField(null=True, blank=True, max_length=18)
     org_type = models.CharField(blank=True, max_length=256)
@@ -741,12 +741,13 @@ class Job(HashIdMixin, models.Model):
     exception = models.TextField(null=True, blank=True)
     log = models.TextField(blank=True)
     click_through_agreement = models.ForeignKey(
-        ClickThroughAgreement, on_delete=models.PROTECT, null=True
+        ClickThroughAgreement, on_delete=models.PROTECT, null=True, blank=True
     )
     master_service_agreement = models.ForeignKey(
         ClickThroughAgreement,
         on_delete=models.PROTECT,
         null=True,
+        blank=True,
         related_name="msa_jobs",
     )
     is_release_test = models.BooleanField(default=False)
